@@ -9,16 +9,20 @@ namespace SingleTonPracticeMsTest
         public static CandyMaker candyMakerInstance = null;
         private Boolean empty;
         private Boolean boiled;
+        private static object syncRoot = new Object();
 
         //Get Instance for CandyMaker 
         public static CandyMaker GetInstanceOfCandyMaker()
         {
             if (candyMakerInstance == null)
             {
-                
-                candyMakerInstance = new CandyMaker();
-                   
-
+                lock (syncRoot)
+                {
+                    if (candyMakerInstance == null)
+                    {
+                        candyMakerInstance = new CandyMaker();
+                    }
+                }
             }
             return candyMakerInstance;
         }
